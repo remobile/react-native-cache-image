@@ -1,0 +1,28 @@
+{
+    "name": "react-native-cache-image",
+        "version": "1.0.0",
+        "description": "A cache-image for react-native",
+        "main": "index.js",
+        "author": {
+            "name": "YunJiang.Fang",
+            "email": "42550564@qq.com"
+        },
+        "license": "MIT",
+        "keywords": [
+            "react-native",
+            "react-component",
+            "ios",
+            "android",
+            "cache-image",
+            "remobile",
+            "mobile"
+        ],
+        "homepage": "https://github.com/remobile/react-native-cache-image",
+        "bugs": {
+            "url": "https://github.com/remobile/react-native-cache-image/issues"
+        },
+        "repository": {
+            "type": "git",
+            "url": "git://github.com/remobile/react-native-cache-image.git"
+        }
+}
