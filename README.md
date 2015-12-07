@@ -1,7 +1,7 @@
-# React Native cache-image (remobile)
+# React Native CacheImage (remobile)
 A cache-image for react-native
 
 ## Installation
 ```sh
-npm install react-native-cache-image --save
+npm install @remobile/react-native-cache-image --save
 ```

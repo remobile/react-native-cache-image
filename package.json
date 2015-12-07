@@ -1,5 +1,5 @@
 {
-    "name": "react-native-cache-image",
+    "name": "@remobile/react-native-cache-image",
         "version": "1.0.0",
         "description": "A cache-image for react-native",
         "main": "index.js",
@@ -14,6 +14,9 @@
             "ios",
             "android",
             "cache-image",
+            "ref",
+            "cache",
+            "webcache",
             "remobile",
             "mobile"
         ],
