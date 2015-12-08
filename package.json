@@ -27,5 +27,10 @@
         "repository": {
             "type": "git",
             "url": "git://github.com/remobile/react-native-cache-image.git"
+        },
+        "peerDependencies": {
+            "@remobile/react-native-sqlite": "^1.0.0",
+            "react-native-fs": "^1.0.0",
+            "react-timer-mixin": "^0.13.3"
         }
 }
