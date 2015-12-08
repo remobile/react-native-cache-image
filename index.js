@@ -47,16 +47,16 @@ var CacheImage = React.createClass({
                 tx.executeSql('UPDATE '+StorageMgr.TABLE_CACHE_IMAGE+' SET ref='+ref+' WHERE url=?', [url], (tx, rs)=>{
                     if (rs.rowsAffected == 0) {
                         tx.executeSql('INSERT INTO '+StorageMgr.TABLE_CACHE_IMAGE+' (url, ref, size, time) VALUES (?, ?, ?, ?)', [url, 1, size, parseInt(Date.now()/1000)], (tx, rs)=>{
-                            console.log('subImageRef <insert>', url, size);
+                            //console.log('subImageRef <insert>', url, size);
                             resolve(true);
                         });
                     } else {
-                        console.log('subImageRef <undo>', url, size);
+                        //console.log('subImageRef <undo>', url, size);
                         resolve(true);
                     }
                 });
             }, (error)=>{
-                console.log('subImageRef <error>', url, size, error);
+                //console.log('subImageRef <error>', url, size, error);
                 resolve(false);
             });
 		});
@@ -73,18 +73,18 @@ var CacheImage = React.createClass({
                         tx.executeSql('DELETE FROM '+StorageMgr.TABLE_CACHE_IMAGE+' WHERE url=?', [url], async(tx, rs)=>{
                             await fs.unlink(storageMgr.getCacheFilePath(url));
                             await storageMgr.updateStorage(-size);
-                            console.log('subImageRef <delete>', url);
+                            //console.log('subImageRef <delete>', url);
                             resolve(true);
                         });
                     } else {
                         tx.executeSql('UPDATE '+StorageMgr.TABLE_CACHE_IMAGE+' SET ref=ref-1 WHERE url=?', [url], (tx, rs)=>{
-                            console.log('subImageRef <update>', url);
+                            //console.log('subImageRef <update>', url);
                             resolve(true);
                         });
                     }
                 });
             }, (error)=>{
-                console.log('subImageRef <error>', url, error);
+                //console.log('subImageRef <error>', url, error);
                 resolve(false);
             });
 		});
@@ -99,7 +99,7 @@ var CacheImage = React.createClass({
                         var oldurl = item.url;
                         if (url !== oldurl) {
                             tx.executeSql('UPDATE '+StorageMgr.TABLE_CACHE_ID+' SET url=? WHERE id=?', [url, id],  async(tx, rs)=>{
-                                console.log('checkCacheId <update oldurl>', id, url, size, oldurl);
+                                //console.log('checkCacheId <update oldurl>', id, url, size, oldurl);
                                 await self.addImageRef(url, size);
                                 await self.subImageRef(oldurl);
                                 self.unlock();
@@ -111,7 +111,7 @@ var CacheImage = React.createClass({
                         }
                     } else {
                         tx.executeSql('INSERT INTO '+StorageMgr.TABLE_CACHE_ID+' (id, url) VALUES (?, ?)', [id, url], async(tx, rs)=>{
-                            console.log('checkCacheId <insert new url>', id, url, size);
+                            //console.log('checkCacheId <insert new url>', id, url, size);
                             await self.addImageRef(url, size);
                             self.unlock();
                             resolve(true);
@@ -120,7 +120,7 @@ var CacheImage = React.createClass({
                 });
             }, (error)=>{
                 resolve(false);
-                console.log('checkCacheId <error>', id, url, size, error);
+                //console.log('checkCacheId <error>', id, url, size, error);
                 self.unlock();
             });
         });
@@ -136,7 +136,7 @@ var CacheImage = React.createClass({
                         var size = item.size;
                         tx.executeSql('DELETE FROM '+StorageMgr.TABLE_CACHE_IMAGE+' WHERE url=?', [url], (tx, rs)=>{
                             tx.executeSql('DELETE FROM '+StorageMgr.TABLE_CACHE_ID+' WHERE url=?', [url], async(tx, rs)=>{
-                                console.log('deleteCacheImage <delete>', url, size);
+                                //console.log('deleteCacheImage <delete>', url, size);
                                 storage -= size;
                                 await fs.unlink(storageMgr.getCacheFilePath(url));
                                 await storageMgr.updateStorage(-size);
@@ -146,7 +146,7 @@ var CacheImage = React.createClass({
                     }
                 });
             }, (error)=>{
-                console.log('deleteCacheImage <error>', error);
+                //console.log('deleteCacheImage <error>', error);
                 reject(error);
             });
         });
@@ -155,10 +155,10 @@ var CacheImage = React.createClass({
         var self = this;
         return new Promise(async(resolve, reject) => {
             var storage = storageMgr.storage + size;
-            console.log('target:', storage);
+            //console.log('target:', storage);
             while (storage >= StorageMgr.CACHE_IMAGE_SIZE) {
                 storage = await self.deleteCacheImage(storage);
-                console.log('after:', storage);
+                //console.log('after:', storage);
             }
             resolve();
         });
@@ -179,13 +179,13 @@ var CacheImage = React.createClass({
                 status:STATUS_LOADED,
                 source:{uri:'file://'+filepath},
             });
-            console.log(self.state);
+            //console.log(self.state);
             await self.checkCacheId(cacheId, filename, res.bytesWritten);
             await storageMgr.updateStorage(res.bytesWritten);
             await self.checkCacheStorage(res.bytesWritten);
         }).catch(
             (err)=>{
-                console.log(err);
+                //console.log(err);
                 this.unlock();
                 self.setState({
                     status:STATUS_UNLOADED,
@@ -220,14 +220,14 @@ var CacheImage = React.createClass({
         var {cacheId, url, filename, filepath} = this.param;
         this.lock();
         var isExist = await this.isFileExist(filepath);
-        console.log(this.param);
-        console.log('Is File exist', isExist);
+        //console.log(this.param);
+        //console.log('Is File exist', isExist);
         if (isExist) {
             this.setState({
                 status:STATUS_LOADED,
                 source:{uri:'file://'+filepath},
             });
-            console.log(this.state);
+            //console.log(this.state);
             this.checkCacheId(cacheId, filename);
         } else {
             this.downloadImage(url, filepath, cacheId, filename);

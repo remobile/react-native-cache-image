@@ -21,7 +21,7 @@ class StorageMgr {
         this.storage = 0;
         var self = this;
         fs.mkdir(fs.DocumentDirectoryPath+'/'+CACHE_IMAGE_DIR);
-        console.log(fs.DocumentDirectoryPath+'/'+CACHE_IMAGE_DIR);
+        //console.log(fs.DocumentDirectoryPath+'/'+CACHE_IMAGE_DIR);
         db.transaction((tx)=>{
             tx.executeSql('CREATE TABLE IF NOT EXISTS '+TABLE_CACHE_IMAGE+' (url varchar(40) primary key, ref integer, size integer, time integer)');
             tx.executeSql('CREATE TABLE IF NOT EXISTS '+TABLE_CACHE_ID+' (id integer primary key, url varchar(40))');
@@ -29,33 +29,33 @@ class StorageMgr {
             tx.executeSql('SELECT storage FROM '+TABLE_CACHE_STORAGE+' WHERE key=1', [], function (tx, rs) {
                 if (rs.rows.length) {
                     self.storage = rs.rows.item(0).storage;
-                    console.log('StorageMgr', self.storage);
+                    //console.log('StorageMgr', self.storage);
                 }
             });
         }, (error)=>{
-            console.log('StorageMgr <error>', error);
+            //console.log('StorageMgr <error>', error);
         });
     }
     updateStorage(offset) {
         var self = this;
-        console.log('StorageMgr updateStorage', this.storage, offset);
+        //console.log('StorageMgr updateStorage', this.storage, offset);
         return new Promise(async(resolve, reject) => {
             db.transaction((tx)=>{
                 tx.executeSql('UPDATE '+TABLE_CACHE_STORAGE+' SET storage=storage+?'+' WHERE key=1', [offset], (tx, rs)=>{
                     if (rs.rowsAffected == 0) {
                         tx.executeSql('INSERT INTO '+TABLE_CACHE_STORAGE+' (key, storage) VALUES (1, ?)', [offset], (tx, rs)=>{
-                            console.log('updateStorage <insert>', offset);
+                            //console.log('updateStorage <insert>', offset);
                             self.storage = offset;
                             resolve(true);
                         });
                     } else {
-                        console.log('updateStorage <update>', offset);
+                        //console.log('updateStorage <update>', offset);
                         self.storage += offset;
                         resolve(true);
                     }
                 });
             }, (error)=>{
-                console.log('updateStorage <error>', error);
+                //console.log('updateStorage <error>', error);
                 resolve(false);
             });
         });
@@ -72,7 +72,7 @@ class StorageMgr {
             this.storage = 0;
             var self = this;
             fs.mkdir(fs.DocumentDirectoryPath+'/'+CACHE_IMAGE_DIR);
-            console.log(fs.DocumentDirectoryPath+'/'+CACHE_IMAGE_DIR);
+            //console.log(fs.DocumentDirectoryPath+'/'+CACHE_IMAGE_DIR);
             db.transaction((tx)=>{
                 tx.executeSql('CREATE TABLE IF NOT EXISTS '+TABLE_CACHE_IMAGE+' (url varchar(40) primary key, ref integer, size integer, time integer)');
                 tx.executeSql('CREATE TABLE IF NOT EXISTS '+TABLE_CACHE_ID+' (id integer primary key, url varchar(40))');
@@ -80,11 +80,11 @@ class StorageMgr {
                 tx.executeSql('SELECT storage FROM '+TABLE_CACHE_STORAGE+' WHERE key=1', [], function (tx, rs) {
                     if (rs.rows.length) {
                         self.storage = rs.rows.item(0).storage;
-                        console.log('StorageMgr', self.storage);
+                        //console.log('StorageMgr', self.storage);
                     }
                 });
             }, (error)=>{
-                console.log('StorageMgr <error>', error);
+                //console.log('StorageMgr <error>', error);
             });
     	});
     }
