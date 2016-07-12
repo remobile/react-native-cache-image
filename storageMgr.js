@@ -4,7 +4,7 @@
 */
 'use strict';
 
-var Sqlite = require('@remobile/react-native-sqlite');
+var Sqlite = require('react-native-sqlite-storage');
 var fs = require('react-native-fs');
 
 const DB_NAME = "cache_image";
