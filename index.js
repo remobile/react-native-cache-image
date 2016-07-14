@@ -5,14 +5,14 @@
 * @flow-weak
 */
 'use strict';
-var React = require('react-native');
+var React = require('react');
 
 var {
     View,
     Image,
     Text,
     StyleSheet,
-} = React;
+} = require('react-native');
 
 
 var md5 = require("./md5.js");
