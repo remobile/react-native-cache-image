@@ -13,11 +13,12 @@ npm install @remobile/react-native-cache-image --save
 ```js
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 var {
     StyleSheet,
     View,
-} = React;
+} = ReactNative;
 
 var CacheImage = require('@remobile/react-native-cache-image');
 

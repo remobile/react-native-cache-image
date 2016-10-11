@@ -1,18 +1,13 @@
-/*
-* (The MIT License)
-* Copyright (c) 2015-2016 YunJiang.Fang <42550564@qq.com>
-* @providesModule CacheImage
-* @flow-weak
-*/
 'use strict';
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 
 var {
     View,
     Image,
     Text,
     StyleSheet,
-} = React;
+} = ReactNative;
 
 
 var md5 = require("./md5.js");

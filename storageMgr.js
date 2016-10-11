@@ -14,7 +14,7 @@ const TABLE_CACHE_STORAGE = "cache_storage";
 const CACHE_IMAGE_DIR = 'cacheimages';
 const CACHE_IMAGE_SIZE = 1024*1024*50;
 
-var db = Sqlite.openDatabase(DB_NAME, '1.0', 'cache image', 1024*1024*2);
+var db = Sqlite.openDatabase(DB_NAME);
 
 class StorageMgr {
     constructor() {
