@@ -1,36 +1,36 @@
 {
     "name": "@remobile/react-native-cache-image",
-        "version": "1.0.1",
-        "description": "A cache-image for react-native",
-        "main": "index.js",
-        "author": {
-            "name": "YunJiang.Fang",
-            "email": "42550564@qq.com"
-        },
-        "license": "MIT",
-        "keywords": [
-            "react-native",
-            "react-component",
-            "ios",
-            "android",
-            "cache-image",
-            "ref",
-            "cache",
-            "webcache",
-            "remobile",
-            "mobile"
-        ],
-        "homepage": "https://github.com/remobile/react-native-cache-image",
-        "bugs": {
-            "url": "https://github.com/remobile/react-native-cache-image/issues"
-        },
-        "repository": {
-            "type": "git",
-            "url": "git://github.com/remobile/react-native-cache-image.git"
-        },
-        "peerDependencies": {
-            "@remobile/react-native-sqlite": "^1.0.1",
-            "react-native-fs": "^2.0.1",
-            "react-timer-mixin": "^0.13.3"
-        }
+    "version": "1.0.2",
+    "description": "A cache-image for react-native",
+    "main": "index.js",
+    "author": {
+        "name": "YunJiang.Fang",
+        "email": "42550564@qq.com"
+    },
+    "license": "MIT",
+    "keywords": [
+        "react-native",
+        "react-component",
+        "ios",
+        "android",
+        "cache-image",
+        "ref",
+        "cache",
+        "webcache",
+        "remobile",
+        "mobile"
+    ],
+    "homepage": "https://github.com/remobile/react-native-cache-image",
+    "bugs": {
+        "url": "https://github.com/remobile/react-native-cache-image/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/remobile/react-native-cache-image.git"
+    },
+    "peerDependencies": {
+        "@remobile/react-native-sqlite": "^1.0.2",
+        "react-native-fs": "^2.0.1",
+        "react-timer-mixin": "^0.13.3"
+    }
 }
