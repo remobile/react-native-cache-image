@@ -1,6 +1,6 @@
 {
     "name": "@remobile/react-native-cache-image",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "A cache-image for react-native",
     "main": "index.js",
     "author": {
@@ -30,7 +30,6 @@
     },
     "peerDependencies": {
         "@remobile/react-native-sqlite": "^1.0.2",
-        "react-native-fs": "^2.0.1",
-        "react-timer-mixin": "^0.13.3"
+        "react-native-fs": "^2.0.1"
     }
 }
