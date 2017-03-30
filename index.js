@@ -1,8 +1,8 @@
 'use strict';
-var React = require('react');
-var ReactNative = require('react-native');
+const React = require('react');
+const ReactNative = require('react-native');
 
-var {
+const {
     View,
     Image,
     Text,
@@ -10,74 +10,73 @@ var {
     ActivityIndicator,
 } = ReactNative;
 
-var StorageMgr = require('./storageMgr.js');
-var fs = require('react-native-fs');
+const StorageMgr = require('./storageMgr.js');
+const fs = require('react-native-fs');
 
-
-/*list status change graph
+/* list status change graph
 *
 *STATUS_NONE->[STATUS_LOADING]
 *STATUS_LOADING->[STATUS_LOADED, STATUS_UNLOADED]
 *
 */
-var
-STATUS_NONE = 0,
-STATUS_LOADING = 1,
-STATUS_LOADED = 2,
-STATUS_UNLOADED = 3;
+const
+    STATUS_NONE = 0,
+    STATUS_LOADING = 1,
+    STATUS_LOADED = 2,
+    STATUS_UNLOADED = 3;
 
-var storageMgr = new StorageMgr();
+const storageMgr = new StorageMgr();
 
-var CacheImage = React.createClass({
-    getInitialState() {
+const CacheImage = React.createClass({
+    getInitialState () {
         return {
             status:STATUS_NONE,
-        }
+        };
     },
-    componentWillMount() {
-        const {url} = this.props;
-        this.setState({status:STATUS_LOADING}, ()=>{
-            storageMgr.checkImageSource(url).then((source)=>{
+    componentWillMount () {
+        const { url } = this.props;
+        this.setState({ status:STATUS_LOADING }, () => {
+            storageMgr.checkImageSource(url).then((source) => {
                 if (this.state && this.state.status === STATUS_LOADING) {
                     if (source) {
-                        this.setState({status:STATUS_LOADED, source});
+                        this.setState({ status:STATUS_LOADED, source });
                     } else {
-                        this.setState({status:STATUS_UNLOADED});
+                        this.setState({ status:STATUS_UNLOADED });
                     }
                 }
             });
         });
     },
-    componentWillUnmount() {
+    componentWillUnmount () {
         this.state.status = STATUS_NONE;
         this.reloading = false;
     },
-    componentWillReceiveProps(nextProps) {
-        const {url} = nextProps;
+    componentWillReceiveProps (nextProps) {
+        const { url } = nextProps;
         if (url !== this.props.url) {
             this.reloading = true;
-            storageMgr.checkImageSource(url).then((source)=>{
+            storageMgr.checkImageSource(url).then((source) => {
                 if (this.reloading) {
                     this.reloading = false;
                     if (source) {
-                        this.setState({status:STATUS_LOADED, source});
+                        this.setState({ status:STATUS_LOADED, source });
                     }
                 }
             });
         }
     },
-    renderLoading() {
+    renderLoading () {
         return (
             <Image
                 {...this.props}
-                style={[this.props.style, {justifyContent:'center', alignItems:'center'}]}
+                style={[this.props.style, { justifyContent:'center', alignItems:'center' }]}
                 source={this.props.defaultSource}
                 >
-                <ActivityIndicator style={styles.spinner} size="small"/>
+                <ActivityIndicator style={styles.spinner} size='small' />
             </Image>
         );
     },
-    renderLocalFile() {
+    renderLocalFile () {
         return (
             <Image
                 {...this.props}
@@ -87,8 +86,8 @@ var CacheImage = React.createClass({
             </Image>
         );
     },
-    render() {
-        const {status} = this.state;
+    render () {
+        const { status } = this.state;
         if (status === STATUS_LOADING) {
             return this.renderLoading();
         } else if (status === STATUS_LOADED) {
@@ -101,7 +100,7 @@ var CacheImage = React.createClass({
                     >
                     {this.props.children}
                 </Image>
-            )
+            );
         }
     },
 });
@@ -109,7 +108,7 @@ var CacheImage = React.createClass({
 CacheImage.clear = storageMgr.clear;
 module.exports = CacheImage;
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
     spinner: {
         alignItems: 'center',
         justifyContent: 'center',
