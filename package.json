@@ -1,6 +1,6 @@
 {
     "name": "@remobile/react-native-cache-image",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "A cache-image for react-native",
     "main": "index.js",
     "author": {
