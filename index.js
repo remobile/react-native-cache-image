@@ -16,15 +16,17 @@ const CacheImage = React.createClass({
     },
     componentWillMount() {
         const {url} = this.props;
-        storageMgr.checkImageSource(url).then((source)=>{
-            this.setState({source, showImage: false}, ()=>{
-                this.setState({ showImage: true });
+        if (url) {
+            storageMgr.checkImageSource(url).then((source)=>{
+                this.setState({source, showImage: false}, ()=>{
+                    this.setState({ showImage: true });
+                });
             });
-        });
+        }
     },
     componentWillReceiveProps(nextProps) {
         const {url} = nextProps;
-        if (url !== this.props.url) {
+        if (url && url !== this.props.url) {
             storageMgr.checkImageSource(url).then((source)=>{
                 this.setState({source, showImage: false}, ()=>{
                     this.setState({ showImage: true });
