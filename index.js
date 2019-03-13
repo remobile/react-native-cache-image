@@ -3,6 +3,7 @@ const React = require('react');
 const ReactNative = require('react-native');
 const {
     Image,
+    TouchableOpacity,
 } = ReactNative;
 const StorageMgr = require('./storageMgr.js');
 const storageMgr = new StorageMgr();
@@ -36,14 +37,21 @@ const CacheImage = React.createClass({
     },
     render() {
         const {showImage, source} = this.state;
-        const {defaultSource, children, ...other} = this.props;
+        const {defaultSource, children, onPress, onLongPress, ...other} = this.props;
         return (
             showImage &&
             <Image
                 {...other}
                 source={source||defaultSource }
                 >
-                {this.props.children}
+                {
+                    (onPress || onLongPress) ?
+                    <TouchableOpacity disabled={!source} onPress={onPress} onLongPress={onLongPress} style={{flex:1}}>
+                        {this.props.children}
+                    </TouchableOpacity>
+                    :
+                    this.props.children
+                }
             </Image>
             ||
             null
