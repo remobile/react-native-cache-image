@@ -13,7 +13,6 @@ const DB_NAME = 'cache_image';
 const TABLE_CACHE_IMAGE = 'cache_image';
 const TABLE_CACHE_STORAGE = 'cache_storage';
 const CACHE_IMAGE_DIR = 'cacheImages';
-const CACHE_IMAGE_SIZE = 1024 * 1024 * 50;
 
 const syncImageSource = {};
 const db = Sqlite.openDatabase({ name:DB_NAME, location: 'default' });
@@ -22,6 +21,7 @@ class StorageMgr {
     constructor () {
         const self = this;
         self.storage = 0;
+        self.cacheSize = 1024 * 1024 * 500;
         fs.mkdir(fs.DocumentDirectoryPath + '/' + CACHE_IMAGE_DIR);
         // console.log(fs.DocumentDirectoryPath+'/'+CACHE_IMAGE_DIR);
         db.transaction((tx) => {
@@ -49,6 +49,13 @@ class StorageMgr {
     islock (filename) {
         return syncImageSource[filename];
     }
+    //export 单位 M
+    setCacheSize (size) {
+        if (size > 1) {
+            this.cacheSize = size * 1024 * 1024;
+        }
+    }
+    //export
     clear () {
         const self = this;
         fs.unlink(fs.DocumentDirectoryPath + '/' + CACHE_IMAGE_DIR);
@@ -147,7 +154,7 @@ class StorageMgr {
         const self = this;
         return new Promise(async(resolve, reject) => {
             // console.log('target:', self.storage);
-            while (self.storage >= CACHE_IMAGE_SIZE) {
+            while (self.storage >= self.cacheSize) {
                 await self.deleteCacheImage();
                 // console.log('after:', self.storage);
             }

@@ -4,78 +4,50 @@ const ReactNative = require('react-native');
 const {
     Image,
 } = ReactNative;
-
-const TimerMixin = require('react-timer-mixin');
 const StorageMgr = require('./storageMgr.js');
-
 const storageMgr = new StorageMgr();
 
 const CacheImage = React.createClass({
-    mixins: [TimerMixin],
-    getDefaultProps() {
-        return {
-            timeOut: 60,
-        };
-    },
     getInitialState() {
         return {
-            loaded: false,
+            source: null,
+            showImage: true,
         }
     },
     componentWillMount() {
         const {url} = this.props;
-        const time = Date.now();
         storageMgr.checkImageSource(url).then((source)=>{
-            if (source) {
-                const diff = this.props.timeOut - (Date.now() - time);
-                if (diff > 0) {
-                    this.setTimeout(()=>{
-                        this.setState({loaded:true, source});
-                    }, diff);
-                } else {
-                    this.setState({loaded:true, source});
-                }
-            }
+            this.setState({source, showImage: false}, ()=>{
+                this.setState({ showImage: true });
+            });
         });
-    },
-    componentWillUnmount() {
-        this.reloading = false;
     },
     componentWillReceiveProps(nextProps) {
         const {url} = nextProps;
         if (url !== this.props.url) {
-            this.reloading = true;
-            const time = Date.now();
             storageMgr.checkImageSource(url).then((source)=>{
-                if (this.reloading) {
-                    this.reloading = false;
-                    if (source) {
-                        const diff = this.props.timeOut - (Date.now() - time);
-                        if (diff > 0) {
-                            this.setTimeout(()=>{
-                                this.setState({loaded:true, source});
-                            }, diff);
-                        } else {
-                            this.setState({loaded:true, source});
-                        }
-                    }
-                }
+                this.setState({source, showImage: false}, ()=>{
+                    this.setState({ showImage: true });
+                });
             });
         }
     },
     render() {
-        const {loaded, source} = this.state;
+        const {showImage, source} = this.state;
         const {defaultSource, children, ...other} = this.props;
         return (
+            showImage &&
             <Image
                 {...other}
-                source={loaded ? source : defaultSource }
+                source={source||defaultSource }
                 >
                 {this.props.children}
             </Image>
+            ||
+            null
         )
     },
 });
 
-CacheImage.clear = storageMgr.clear;
+CacheImage.storage = storageMgr; /*export clear(), setCacheSize(单位 M)*/
 module.exports = CacheImage;
